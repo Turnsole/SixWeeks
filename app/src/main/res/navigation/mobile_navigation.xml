@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_today">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.lastminutedevice.sixweeks.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_today"
+        android:name="com.lastminutedevice.sixweeks.ui.today.TodayFragment"
+        android:label="@string/title_today"
+        tools:layout="@layout/fragment_today" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.lastminutedevice.sixweeks.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_program"
+        android:name="com.lastminutedevice.sixweeks.ui.program.ProgramFragment"
+        android:label="@string/title_program"
+        tools:layout="@layout/fragment_program" />
 
 </navigation>

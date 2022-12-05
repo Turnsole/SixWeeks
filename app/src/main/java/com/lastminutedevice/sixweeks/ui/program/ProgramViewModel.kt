@@ -1,10 +1,10 @@
-package com.lastminutedevice.sixweeks.ui.dashboard
+package com.lastminutedevice.sixweeks.ui.program
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class ProgramViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
