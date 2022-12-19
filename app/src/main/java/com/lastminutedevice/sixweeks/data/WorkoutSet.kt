@@ -2,12 +2,9 @@ package com.lastminutedevice.sixweeks.data
 
 import androidx.room.Entity
 
-@Entity(primaryKeys = ["program", "week", "level", "ordinal"])
+@Entity(primaryKeys = ["workoutId", "set"])
 data class WorkoutSet(
-    val week: Int,
-    val level: Int,
-    val ordinal: Int,
-    val completed: Boolean,
-    val program: String,
+    val workoutId: Int,
+    val set: Int,
     val reps: Int
 )

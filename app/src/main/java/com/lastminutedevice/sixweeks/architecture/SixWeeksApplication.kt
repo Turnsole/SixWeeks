@@ -3,7 +3,7 @@ package com.lastminutedevice.sixweeks.architecture
 import android.app.Application
 import androidx.room.Room
 import com.lastminutedevice.sixweeks.data.Database
-import com.lastminutedevice.sixweeks.data.Loader
+import com.lastminutedevice.sixweeks.loader.Loader
 import com.lastminutedevice.sixweeks.data.Repository
 
 class SixWeeksApplication : Application() {

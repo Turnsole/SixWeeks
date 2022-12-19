@@ -1,8 +1,8 @@
-package com.lastminutedevice.sixweeks.data
+package com.lastminutedevice.sixweeks.loader
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.util.Log
+import com.lastminutedevice.sixweeks.data.Repository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -33,14 +33,14 @@ class Loader(private val repository: Repository, private val context: Context) {
     }
 
     private suspend fun importProgram(name: String) {
-        val json: String = loadAssetTextAsString(name =  name)
+        val json: String = loadAssetTextAsString(name = name)
         val jsonAdapter: JsonAdapter<Program> = moshi.adapter(Program::class.java)
-        val deserializedObject : Program? = jsonAdapter.fromJson(json)
+        val deserializedObject: Program? = jsonAdapter.fromJson(json)
 
         if (deserializedObject != null) {
-            repository.saveLevels(levels = deserializedObject.levels)
-            repository.saveWeeks(weeks = deserializedObject.weeks)
+            repository.saveWorkouts(workouts = deserializedObject.workouts)
             repository.saveWorkoutSets(sets = deserializedObject.sets)
+            repository.saveRest(rests = deserializedObject.rests)
         } else {
             Log.e(tag, "Failed to deserialize level.")
         }
@@ -62,12 +62,10 @@ class Loader(private val repository: Repository, private val context: Context) {
         } catch (e: IOException) {
             Log.e(tag, "Failure opening $name")
         } finally {
-            if (inputReader != null) {
-                try {
-                    inputReader.close()
-                } catch (e: IOException) {
-                    Log.e(tag, "Failure closing $name")
-                }
+            try {
+                inputReader?.close()
+            } catch (e: IOException) {
+                Log.e(tag, "Failure closing $name")
             }
         }
         throw Exception("Couldn't load asset file.")
