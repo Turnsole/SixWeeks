@@ -1,6 +1,7 @@
 package com.lastminutedevice.sixweeks.data
 
-import android.arch.persistence.room.Entity
+import androidx.room.Entity
+
 
 @Entity(primaryKeys = ["program", "ordinal"])
 data class Week(

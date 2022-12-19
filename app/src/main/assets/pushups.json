@@ -1,0 +1,28 @@
+{
+  "levels" : [
+    {"level" :  1, "week" :  1, "program" :  "pushups"},
+    {"level" :  1, "week" :  2, "program" :  "pushups"},
+    {"level" :  1, "week" :  3, "program" :  "pushups"},
+    {"level" :  2, "week" :  1, "program" :  "pushups"},
+    {"level" :  2, "week" :  2, "program" :  "pushups"},
+    {"level" :  2, "week" :  3, "program" :  "pushups"},
+    {"level" :  3, "week" :  1, "program" :  "pushups"},
+    {"level" :  3, "week" :  2, "program" :  "pushups"},
+    {"level" :  3, "week" :  3, "program" :  "pushups"}
+  ],
+  "weeks" : [
+    {"ordinal" :  1, "rest" :  60, "program" :  "pushups"},
+    {"ordinal" :  2, "rest" :  30, "program" :  "pushups"},
+    {"ordinal" :  3, "rest" :  15, "program" :  "pushups"}
+  ],
+  "sets" : [
+    {"week" :  1, "level" :  1, "ordinal" :  1, "completed" :  false, "program" :  "pushups", "reps" :  5},
+    {"week" :  1, "level" :  1, "ordinal" :  2, "completed" :  false, "program" :  "pushups", "reps" :  6},
+    {"week" :  1, "level" :  2, "ordinal" :  1, "completed" :  false, "program" :  "pushups", "reps" :  10},
+    {"week" :  1, "level" :  2, "ordinal" :  2, "completed" :  false, "program" :  "pushups", "reps" :  10},
+    {"week" :  2, "level" :  1, "ordinal" :  1, "completed" :  false, "program" :  "pushups", "reps" :  5},
+    {"week" :  2, "level" :  2, "ordinal" :  1, "completed" :  false, "program" :  "pushups", "reps" :  10},
+    {"week" :  3, "level" :  1, "ordinal" :  1, "completed" :  false, "program" :  "pushups", "reps" :  10},
+    {"week" :  3, "level" :  2, "ordinal" :  1, "completed" :  false, "program" :  "pushups", "reps" :  10}
+  ]
+}

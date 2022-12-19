@@ -1,31 +1,31 @@
 package com.lastminutedevice.sixweeks.data
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface RoomAccessObject {
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    suspend fun insertLevels(vararg levels: Level)
+    suspend fun insertLevels(levels: List<Level>)
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    suspend fun insertSets(vararg workoutSets: WorkoutSet)
+    suspend fun insertSets(workoutSets: List<WorkoutSet>)
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    suspend fun insertTests(vararg tests: Test)
+    suspend fun insertTests(tests: List<Test>)
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    suspend fun insertWeeks(vararg weeks: Week)
+    suspend fun insertWeeks(weeks: List<Week>)
 
     @Query("select * from workoutset where program = :program and week = :week and level = :level")
     suspend fun loadSets(program: String, week: Int, level: Int): List<WorkoutSet>
 
     @Query("select * from workoutset where program = :program")
-    suspend fun loadAllSets(program: String, week: Int, level: Int): List<WorkoutSet>
+    suspend fun loadAllSets(program: String): List<WorkoutSet>
 
-    @Query("select max(result) from test where program = :program and week = :week")
-    suspend fun loadTest(program: String, week: Int): Test
+    //@Query("select max(result) from test where program = :program and week = :week")
+    //suspend fun loadTest(program: String, week: Int): Test
 }
