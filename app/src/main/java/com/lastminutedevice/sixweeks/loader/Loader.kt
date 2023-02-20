@@ -3,6 +3,7 @@ package com.lastminutedevice.sixweeks.loader
 import android.content.Context
 import android.util.Log
 import com.lastminutedevice.sixweeks.data.Repository
+import com.lastminutedevice.sixweeks.data.json.JsonWorkoutFile
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -26,6 +27,9 @@ class Loader(private val repository: Repository, private val context: Context) {
 
     private val loaderScope = CoroutineScope(Job() + Dispatchers.Main)
 
+    /**
+     * TODO base the file loaded on the build flavor
+     */
     fun load() {
         loaderScope.launch {
             importProgram(name = "pushups")
@@ -34,13 +38,11 @@ class Loader(private val repository: Repository, private val context: Context) {
 
     private suspend fun importProgram(name: String) {
         val json: String = loadAssetTextAsString(name = name)
-        val jsonAdapter: JsonAdapter<Program> = moshi.adapter(Program::class.java)
-        val deserializedObject: Program? = jsonAdapter.fromJson(json)
+        val jsonAdapter: JsonAdapter<JsonWorkoutFile> = moshi.adapter(JsonWorkoutFile::class.java)
+        val deserializedObject: JsonWorkoutFile? = jsonAdapter.fromJson(json)
 
         if (deserializedObject != null) {
-            repository.saveWorkouts(workouts = deserializedObject.workouts)
-            repository.saveWorkoutSets(sets = deserializedObject.sets)
-            repository.saveRest(rests = deserializedObject.rests)
+            repository.saveWorkouts(jsonWorkouts = deserializedObject.workouts)
         } else {
             Log.e(tag, "Failed to deserialize level.")
         }

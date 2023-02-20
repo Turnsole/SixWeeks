@@ -1,4 +1,4 @@
-package com.lastminutedevice.sixweeks.data
+package com.lastminutedevice.sixweeks.data.room
 
 import androidx.room.Entity
 
