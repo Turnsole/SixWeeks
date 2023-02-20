@@ -1,6 +1,6 @@
-package com.lastminutedevice.sixweeks.data
+package com.lastminutedevice.sixweeks.data.room
 
-import android.arch.persistence.room.Entity
+import androidx.room.Entity
 
 @Entity(primaryKeys = ["program", "week"])
 data class Test(
