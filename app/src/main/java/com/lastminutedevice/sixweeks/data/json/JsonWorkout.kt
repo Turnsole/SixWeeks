@@ -9,6 +9,6 @@ class JsonWorkout(
     val week: Int,
     val day: Int,
     val level: String,
-    val rest: Int = 45, // TODO add the real rests to the Json file
+    val rest: Int,
     val sets: List<JsonWorkoutSet>
 )
