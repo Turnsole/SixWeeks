@@ -2,6 +2,7 @@ package com.lastminutedevice.sixweeks.loader
 
 import android.content.Context
 import android.util.Log
+import com.lastminutedevice.sixweeks.BuildConfig
 import com.lastminutedevice.sixweeks.data.Repository
 import com.lastminutedevice.sixweeks.data.json.JsonWorkoutFile
 import com.squareup.moshi.JsonAdapter
@@ -27,12 +28,9 @@ class Loader(private val repository: Repository, private val context: Context) {
 
     private val loaderScope = CoroutineScope(Job() + Dispatchers.Main)
 
-    /**
-     * TODO base the file loaded on the build flavor
-     */
     fun load() {
         loaderScope.launch {
-            importProgram(name = "pushups")
+            importProgram(name = BuildConfig.skill)
         }
     }
 
