@@ -30,7 +30,11 @@ class Loader(private val repository: Repository, private val context: Context) {
 
     fun load() {
         loaderScope.launch {
-            importProgram(name = BuildConfig.skill)
+            repository.loadWorkouts().collect { result ->
+                if (result.isEmpty()) {
+                    importProgram(name = BuildConfig.skill)
+                }
+            }
         }
     }
 
