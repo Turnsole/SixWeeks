@@ -5,9 +5,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [Workout::class, Test::class, WorkoutSet::class],
+    entities = [Workout::class, Test::class, WorkoutSet::class, CompletedWorkout::class],
     version = 1,
-    exportSchema = false)
+    exportSchema = false
+)
 @TypeConverters(ListConverter::class)
 abstract class Database : RoomDatabase() {
     abstract fun dao(): RoomAccessObject

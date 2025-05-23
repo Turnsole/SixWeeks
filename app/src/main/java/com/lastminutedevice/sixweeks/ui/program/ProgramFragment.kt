@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lastminutedevice.sixweeks.databinding.FragmentProgramBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProgramFragment : Fragment() {
 
     private var _binding: FragmentProgramBinding? = null
@@ -27,8 +30,11 @@ class ProgramFragment : Fragment() {
         _binding = FragmentProgramBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        dashboardViewModel.workouts.observe(viewLifecycleOwner) {
-            // TODO Load the data into the adapter
+        binding.programOverview.layoutManager = LinearLayoutManager(requireContext())
+
+        // TODO set data instead of constructing with it
+        dashboardViewModel.workouts.observe(viewLifecycleOwner) { workouts ->
+           binding.programOverview.adapter = ProgramAdapter(workouts)
         }
         return root
     }

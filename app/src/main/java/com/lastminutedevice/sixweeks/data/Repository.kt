@@ -1,11 +1,13 @@
 package com.lastminutedevice.sixweeks.data
 
-import androidx.lifecycle.LiveData
 import com.lastminutedevice.sixweeks.data.json.JsonWorkout
+import com.lastminutedevice.sixweeks.data.models.UserWorkout
 import com.lastminutedevice.sixweeks.data.room.RoomAccessObject
 import com.lastminutedevice.sixweeks.data.room.Test
 import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutSet
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class Repository @Inject constructor(val dao: RoomAccessObject) {
@@ -31,8 +33,23 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
         }
     }
 
-    fun loadWorkouts() : LiveData<List<Workout>> {
-        return dao.loadAllSets()
+    fun loadWorkouts() : Flow<List<UserWorkout>> {
+        val workoutsFlow =  dao.loadAllSets()
+        val completedFlow = dao.loadAllCompleted()
+
+        return workoutsFlow.combine(completedFlow) { workoutList, completedList ->
+            workoutList.map { workout ->
+                UserWorkout(
+                    week = workout.week,
+                    day = workout.day,
+                    level = workout.level,
+                    rest = workout.rest,
+                    completed = completedList.find { completed ->
+                        completed.workoutId == workout.workoutId
+                    } != null
+                )
+            }
+        }
     }
 
     suspend fun saveTests(tests: List<Test>) {

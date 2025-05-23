@@ -1,10 +1,10 @@
 package com.lastminutedevice.sixweeks.data.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RoomAccessObject {
@@ -22,7 +22,10 @@ interface RoomAccessObject {
     suspend fun loadSets(week: Int, day: Int, level: Int): List<Workout>
 
     @Query("select * from workout order by week, day")
-    fun loadAllSets(): LiveData<List<Workout>>
+    fun loadAllSets(): Flow<List<Workout>>
+
+    @Query("select * from completedworkout")
+    fun loadAllCompleted(): Flow<List<CompletedWorkout>>
 
     //@Query("select max(result) from test where program = :program and week = :week")
     //suspend fun loadTest(program: String, week: Int): Test
