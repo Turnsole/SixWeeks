@@ -1,12 +1,14 @@
 package com.lastminutedevice.sixweeks.data
 
+import androidx.lifecycle.LiveData
 import com.lastminutedevice.sixweeks.data.json.JsonWorkout
 import com.lastminutedevice.sixweeks.data.room.RoomAccessObject
 import com.lastminutedevice.sixweeks.data.room.Test
 import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutSet
+import javax.inject.Inject
 
-class Repository(val dao: RoomAccessObject) {
+class Repository @Inject constructor(val dao: RoomAccessObject) {
 
     suspend fun saveWorkouts(jsonWorkouts: List<JsonWorkout>) {
         jsonWorkouts.forEach { workout ->
@@ -27,6 +29,10 @@ class Repository(val dao: RoomAccessObject) {
             }
             dao.insertSets(sets)
         }
+    }
+
+    fun loadWorkouts() : LiveData<List<Workout>> {
+        return dao.loadAllSets()
     }
 
     suspend fun saveTests(tests: List<Test>) {

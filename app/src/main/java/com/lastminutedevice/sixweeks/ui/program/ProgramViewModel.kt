@@ -1,13 +1,17 @@
 package com.lastminutedevice.sixweeks.ui.program
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lastminutedevice.sixweeks.data.Repository
+import com.lastminutedevice.sixweeks.data.room.Workout
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ProgramViewModel : ViewModel() {
+@HiltViewModel
+class ProgramViewModel @Inject constructor(): ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
+    @Inject lateinit var repository: Repository
+
+    val workouts: LiveData<List<Workout>> = repository.loadWorkouts()
+
 }

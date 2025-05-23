@@ -1,5 +1,6 @@
 package com.lastminutedevice.sixweeks.data.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -21,7 +22,7 @@ interface RoomAccessObject {
     suspend fun loadSets(week: Int, day: Int, level: Int): List<Workout>
 
     @Query("select * from workout order by week, day")
-    suspend fun loadAllSets(): List<Workout>
+    fun loadAllSets(): LiveData<List<Workout>>
 
     //@Query("select max(result) from test where program = :program and week = :week")
     //suspend fun loadTest(program: String, week: Int): Test
