@@ -8,6 +8,7 @@ import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class Repository @Inject constructor(val dao: RoomAccessObject) {

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.lastminutedevice.sixweeks.data.models.UserWorkout
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -29,7 +30,4 @@ interface RoomAccessObject {
 
     @Query("select * from workoutset")
     fun loadSets(): Flow<List<WorkoutSet>>
-
-    //@Query("select max(result) from test where program = :program and week = :week")
-    //suspend fun loadTest(program: String, week: Int): Test
 }

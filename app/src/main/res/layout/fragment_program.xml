@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="15dp"
     tools:context=".ui.program.ProgramFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/program_overview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
