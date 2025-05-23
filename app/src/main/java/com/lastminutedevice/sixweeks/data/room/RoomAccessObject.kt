@@ -19,13 +19,16 @@ interface RoomAccessObject {
     suspend fun insertTests(tests: List<Test>)
 
     @Query("select * from workout where week = :week and day = :day and level = :level")
-    suspend fun loadSets(week: Int, day: Int, level: Int): List<Workout>
+    suspend fun loadWorkout(week: Int, day: Int, level: Int): List<Workout>
 
     @Query("select * from workout order by week, day")
-    fun loadAllSets(): Flow<List<Workout>>
+    fun loadAllWorkouts(): Flow<List<Workout>>
 
     @Query("select * from completedworkout")
     fun loadAllCompleted(): Flow<List<CompletedWorkout>>
+
+    @Query("select * from workoutset")
+    fun loadSets(): Flow<List<WorkoutSet>>
 
     //@Query("select max(result) from test where program = :program and week = :week")
     //suspend fun loadTest(program: String, week: Int): Test

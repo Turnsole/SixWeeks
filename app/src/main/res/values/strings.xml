@@ -2,4 +2,6 @@
     <string name="app_name">Six Weeks</string>
     <string name="title_today">Today</string>
     <string name="title_program">Program</string>
+    <string name="program_list_header">Week %d</string>
+    <string name="program_list_day">Day %d: %s</string>
 </resources>

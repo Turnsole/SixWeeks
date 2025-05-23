@@ -5,5 +5,6 @@ data class UserWorkout(
     val day: Int,
     val level: String,
     val rest: Int,
-    val completed: Boolean
+    val completed: Boolean,
+    val sets: List<Int>
 )

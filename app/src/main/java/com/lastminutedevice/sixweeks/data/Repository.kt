@@ -34,10 +34,11 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
     }
 
     fun loadWorkouts() : Flow<List<UserWorkout>> {
-        val workoutsFlow =  dao.loadAllSets()
+        val workoutsFlow =  dao.loadAllWorkouts()
         val completedFlow = dao.loadAllCompleted()
+        val workoutSetFlow = dao.loadSets()
 
-        return workoutsFlow.combine(completedFlow) { workoutList, completedList ->
+        return combine(workoutSetFlow, completedFlow, workoutsFlow) { setList, completedList, workoutList ->
             workoutList.map { workout ->
                 UserWorkout(
                     week = workout.week,
@@ -46,7 +47,11 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
                     rest = workout.rest,
                     completed = completedList.find { completed ->
                         completed.workoutId == workout.workoutId
-                    } != null
+                    } != null,
+                    sets = setList
+                        .filter { set -> set.workoutId == workout.workoutId }
+                        .sortedBy { set -> set.ordinal }
+                        .map { set -> set.reps }
                 )
             }
         }
