@@ -11,7 +11,6 @@ class SixWeeksApplication : Application() {
 
     @Inject lateinit var repository: Repository
 
-    // TODO check to only load if the DB hasn't been loaded yet. 
     override fun onCreate() {
         super.onCreate()
         Loader(context = this, repository = repository).load()
