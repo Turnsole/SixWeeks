@@ -11,7 +11,10 @@ import com.lastminutedevice.sixweeks.data.models.UserWorkout
 import com.lastminutedevice.sixweeks.databinding.FragmentTodayBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardRestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardTestBinding
+import com.lastminutedevice.sixweeks.databinding.TodayCardWorkoutBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class TodayFragment : Fragment() {
@@ -47,6 +50,16 @@ class TodayFragment : Fragment() {
     }
 
     fun displayWorkout(workout: UserWorkout) : View {
-        return TodayCardRestBinding.inflate(layoutInflater).root
+        val binding = TodayCardWorkoutBinding.inflate(layoutInflater)
+        binding.workoutHeader.text = requireContext().getString(
+            R.string.today_workout_header,
+            LocalDate.now().format(DateTimeFormatter.ofPattern("E, MMMM d"))
+        )
+        binding.workoutSets.text = requireContext().getString(
+            R.string.today_workout,
+            workout.rest,
+            workout.sets.joinToString(", ")
+        )
+        return binding.root
     }
 }
