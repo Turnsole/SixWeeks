@@ -1,5 +1,6 @@
 package com.lastminutedevice.sixweeks.data
 
+import android.util.Log
 import com.lastminutedevice.sixweeks.data.json.JsonWorkout
 import com.lastminutedevice.sixweeks.data.models.UserWorkout
 import com.lastminutedevice.sixweeks.data.room.RoomAccessObject
@@ -8,10 +9,11 @@ import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class Repository @Inject constructor(val dao: RoomAccessObject) {
+
+    private val tag: String = this::class.java.simpleName
 
     suspend fun saveWorkouts(jsonWorkouts: List<JsonWorkout>) {
         jsonWorkouts.forEach { workout ->
@@ -31,6 +33,11 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
                 )
             }
             dao.insertSets(sets)
+        }
+        if (jsonWorkouts.isEmpty()) {
+            Log.e(tag, "Workouts list was empty.")
+        } else {
+            Log.d(tag, "Loaded ${jsonWorkouts.size} workouts.")
         }
     }
 

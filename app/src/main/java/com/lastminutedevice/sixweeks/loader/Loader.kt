@@ -39,6 +39,8 @@ class Loader(private val repository: Repository, private val context: Context) {
     }
 
     private suspend fun importProgram(name: String) {
+        Log.d(tag, "Loading workouts from $name asset file.")
+
         val json: String = loadAssetTextAsString(name = name)
         val jsonAdapter: JsonAdapter<JsonWorkoutFile> = moshi.adapter(JsonWorkoutFile::class.java)
         val deserializedObject: JsonWorkoutFile? = jsonAdapter.fromJson(json)
@@ -46,7 +48,7 @@ class Loader(private val repository: Repository, private val context: Context) {
         if (deserializedObject != null) {
             repository.saveWorkouts(jsonWorkouts = deserializedObject.workouts)
         } else {
-            Log.e(tag, "Failed to deserialize level.")
+            Log.e(tag, "Failed to deserialize \"$name\" workout file.")
         }
     }
 
