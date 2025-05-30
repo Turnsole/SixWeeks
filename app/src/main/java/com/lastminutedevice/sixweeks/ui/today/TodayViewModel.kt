@@ -9,10 +9,11 @@ import com.lastminutedevice.sixweeks.data.models.UserWorkout
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TodayViewModel @Inject constructor(repository: Repository) : ViewModel() {
+class TodayViewModel @Inject constructor(val repository: Repository) : ViewModel() {
 
     // TODO optimize loading to get only the latest incomplete workout, or an error.
     val workout: LiveData<UserWorkout> = repository.loadWorkouts()
@@ -22,4 +23,10 @@ class TodayViewModel @Inject constructor(repository: Repository) : ViewModel() {
             context = this.viewModelScope.coroutineContext,
             timeoutInMs = 5000
         )
+
+    fun recordWorkout(userWorkout: UserWorkout, threshold: Int? = 0) {
+        viewModelScope.launch {
+            repository.recordWorkout(userWorkout, threshold)
+        }
+    }
 }

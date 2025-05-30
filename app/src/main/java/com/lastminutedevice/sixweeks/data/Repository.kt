@@ -50,6 +50,7 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
         return combine(workoutSetFlow, completedFlow, workoutsFlow) { setList, completedList, workoutList ->
             workoutList.map { workout ->
                 UserWorkout(
+                    id = workout.workoutId,
                     week = workout.week,
                     day = workout.day,
                     level = workout.level,
@@ -67,11 +68,11 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
         }
     }
 
-    suspend fun recordWorkout(workout: Workout, sets: List<WorkoutSet>, maxEffort: Int? = null) {
+    suspend fun recordWorkout(userWorkout: UserWorkout, maxEffort: Int? = null) {
         val completedWorkout = CompletedWorkout(
-            workoutId = workout.workoutId,
+            workoutId = userWorkout.id,
             date = System.currentTimeMillis(),
-            motions = maxEffort ?: sets.sumOf { it.reps }
+            motions = maxEffort ?: userWorkout.sets.sum()
         )
         dao.insertCompletedWorkout(completedWorkout)
     }

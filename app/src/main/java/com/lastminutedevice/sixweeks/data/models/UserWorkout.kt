@@ -1,6 +1,7 @@
 package com.lastminutedevice.sixweeks.data.models
 
 data class UserWorkout(
+    val id: Long,
     val week: Int,
     val day: Int,
     val level: String,

@@ -11,4 +11,5 @@
     <string name="today_test_result"/>
     <string name="today_workout_header">Workout for %s</string>
     <string name="today_workout">Rest: %d seconds. Sets: %s.</string>
+    <string name="today_start_workout_button">Start Workout</string>
 </resources>
