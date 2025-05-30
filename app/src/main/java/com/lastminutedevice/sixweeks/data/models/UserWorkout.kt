@@ -6,5 +6,6 @@ data class UserWorkout(
     val level: String,
     val rest: Int,
     val completed: Boolean,
-    val sets: List<Int>
+    val sets: List<Int>,
+    val testThreshold: Int? = null
 )

@@ -29,8 +29,8 @@ class TodayFragment : Fragment() {
         val binding = FragmentTodayBinding.inflate(inflater, container, false)
         homeViewModel.workout.observe(viewLifecycleOwner) { workout ->
             val cardContents = when {
-                workout.sets.isEmpty() && workout.rest > 0 -> displayRest(workout)
-                workout.sets.isEmpty() -> displayTest(workout)
+                workout.testThreshold != null -> displayTest(workout)
+                workout.sets.isEmpty() -> displayRest()
                 else -> displayWorkout(workout)
             }
             binding.dailyActivityContainer.addView(cardContents)
@@ -39,13 +39,17 @@ class TodayFragment : Fragment() {
         return binding.root
     }
 
-    fun displayRest(workout: UserWorkout) : View {
+    fun displayRest() : View {
         return TodayCardRestBinding.inflate(layoutInflater).root
     }
 
+    /**
+     * TODO if the workout is completed then display the number of max reps done.
+     */
     fun displayTest(workout: UserWorkout) : View {
         val testBinding = TodayCardTestBinding.inflate(layoutInflater)
         testBinding.testHeader.setText(R.string.today_test_header)
+        testBinding.testResult.text = requireContext().getString(R.string.today_test_threshold, workout.testThreshold)
         return testBinding.root
     }
 

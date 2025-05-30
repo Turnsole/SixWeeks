@@ -3,6 +3,14 @@
     [
         {
             "week": 1,
+            "rest": 0,
+            "day": 0,
+            "level": "",
+            "sets": [],
+            "testThreshold": 5
+        },
+        {
+            "week": 1,
             "rest": 60,
             "day": 1,
             "level": "< 5",
@@ -522,6 +530,14 @@
                     "reps": 20
                 }
             ]
+        },
+        {
+            "week": 2,
+            "rest": 0,
+            "day": 4,
+            "level": "",
+            "sets": [],
+            "testThreshold": 16
         },
         {
             "week": 3,
@@ -1046,6 +1062,14 @@
             ]
         },
         {
+            "week": 4,
+            "rest": 0,
+            "day": 4,
+            "level": "",
+            "sets": [],
+            "testThreshold": 32
+        },
+        {
             "week": 5,
             "day": 1,
             "rest": 60,
@@ -1377,6 +1401,14 @@
                     "reps": 50
                 }
             ]
+        },
+        {
+            "week": 5,
+            "rest": 0,
+            "day": 4,
+            "level": "",
+            "sets": [],
+            "testThreshold": 46
         },
         {
             "week": 6,
@@ -1734,6 +1766,14 @@
                     "reps": 60
                 }
             ]
+        },
+        {
+            "week": 6,
+            "rest": 0,
+            "day": 4,
+            "level": "",
+            "sets": [],
+            "testThreshold": 100
         }
     ]
 }

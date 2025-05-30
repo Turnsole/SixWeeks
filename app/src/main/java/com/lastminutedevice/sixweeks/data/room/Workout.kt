@@ -9,5 +9,7 @@ data class Workout (
     val week: Int,
     val day: Int,
     val level: String,
-    val rest: Int
+    val rest: Int,
+    /** Some days of some programs are a test of $threshold+ motions. Results recorded to the Test table. **/
+    val testThreshold: Int? = null
 )

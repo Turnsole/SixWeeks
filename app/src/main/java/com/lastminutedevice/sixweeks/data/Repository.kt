@@ -3,8 +3,8 @@ package com.lastminutedevice.sixweeks.data
 import android.util.Log
 import com.lastminutedevice.sixweeks.data.json.JsonWorkout
 import com.lastminutedevice.sixweeks.data.models.UserWorkout
+import com.lastminutedevice.sixweeks.data.room.CompletedWorkout
 import com.lastminutedevice.sixweeks.data.room.RoomAccessObject
-import com.lastminutedevice.sixweeks.data.room.Test
 import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutSet
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,8 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
                 week = workout.week,
                 day = workout.day,
                 level = workout.level,
-                rest = workout.rest
+                rest = workout.rest,
+                testThreshold = workout.testThreshold
             )
             val workoutId = dao.insertWorkout(entity)
             val sets = workout.sets.map { set ->
@@ -59,13 +60,19 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
                     sets = setList
                         .filter { set -> set.workoutId == workout.workoutId }
                         .sortedBy { set -> set.ordinal }
-                        .map { set -> set.reps }
+                        .map { set -> set.reps },
+                    testThreshold = workout.testThreshold
                 )
             }
         }
     }
 
-    suspend fun saveTests(tests: List<Test>) {
-        dao.insertTests(tests)
+    suspend fun recordWorkout(workout: Workout, sets: List<WorkoutSet>, maxEffort: Int? = null) {
+        val completedWorkout = CompletedWorkout(
+            workoutId = workout.workoutId,
+            date = System.currentTimeMillis(),
+            motions = maxEffort ?: sets.sumOf { it.reps }
+        )
+        dao.insertCompletedWorkout(completedWorkout)
     }
 }
