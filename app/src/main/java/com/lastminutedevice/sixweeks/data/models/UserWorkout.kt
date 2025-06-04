@@ -1,5 +1,7 @@
 package com.lastminutedevice.sixweeks.data.models
 
+import java.io.Serializable
+
 data class UserWorkout(
     val id: Long,
     val week: Int,
@@ -9,4 +11,4 @@ data class UserWorkout(
     val completed: Boolean,
     val sets: List<Int>,
     val testThreshold: Int? = null
-)
+) : Serializable

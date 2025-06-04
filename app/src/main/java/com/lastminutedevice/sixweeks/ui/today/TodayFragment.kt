@@ -13,6 +13,7 @@ import com.lastminutedevice.sixweeks.databinding.FragmentTodayBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardRestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardTestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardWorkoutBinding
+import com.lastminutedevice.sixweeks.ui.test.TestFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -43,6 +44,7 @@ class TodayFragment : Fragment() {
                     displayWorkout(workout = workout, fab = binding.fab, viewModel = homeViewModel)
                 }
             }
+            binding.dailyActivityContainer.removeAllViews()
             binding.dailyActivityContainer.addView(cardContents)
             binding.weekProgress.text =
                 requireContext().getString(R.string.today_progress, workout.week)
@@ -68,7 +70,8 @@ class TodayFragment : Fragment() {
         fab.visibility = View.VISIBLE
         fab.setImageResource(R.drawable.note)
         fab.setOnClickListener {
-            viewModel.recordWorkout(userWorkout = workout, threshold = 10) // TODO get effort
+            val fragment = TestFragment.newInstance(workout)
+            fragment.show(parentFragmentManager, TestFragment.tag)
         }
 
         return testBinding.root

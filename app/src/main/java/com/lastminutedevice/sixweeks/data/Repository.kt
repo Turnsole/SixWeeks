@@ -1,6 +1,7 @@
 package com.lastminutedevice.sixweeks.data
 
 import android.util.Log
+import androidx.room.Transaction
 import com.lastminutedevice.sixweeks.data.json.JsonWorkout
 import com.lastminutedevice.sixweeks.data.models.UserWorkout
 import com.lastminutedevice.sixweeks.data.room.CompletedWorkout
@@ -15,6 +16,7 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
 
     private val tag: String = this::class.java.simpleName
 
+    @Transaction
     suspend fun saveWorkouts(jsonWorkouts: List<JsonWorkout>) {
         jsonWorkouts.forEach { workout ->
             val entity = Workout(
@@ -45,9 +47,10 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
     fun loadWorkouts() : Flow<List<UserWorkout>> {
         val workoutsFlow =  dao.loadAllWorkouts()
         val completedFlow = dao.loadAllCompleted()
-        val workoutSetFlow = dao.loadSets()
+        val setFlow = dao.loadSets()
 
-        return combine(workoutSetFlow, completedFlow, workoutsFlow) { setList, completedList, workoutList ->
+        return combine(setFlow, completedFlow, workoutsFlow) { setList, completedList, workoutList ->
+            Log.d("Repository", "Combining: ${workoutList.size} workouts, ${completedList.size} completed, ${setList.size} sets")
             workoutList.map { workout ->
                 UserWorkout(
                     id = workout.workoutId,
