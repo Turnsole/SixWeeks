@@ -27,13 +27,13 @@ class TodayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val homeViewModel = ViewModelProvider(this)[TodayViewModel::class.java]
+        val viewModel = ViewModelProvider(this)[TodayViewModel::class.java]
         val binding = FragmentTodayBinding.inflate(inflater, container, false)
 
-        homeViewModel.workout.observe(viewLifecycleOwner) { workout ->
+        viewModel.workout.observe(viewLifecycleOwner) { workout ->
             val cardContents = when {
                 workout.testThreshold != null -> {
-                    displayTest(workout = workout, fab = binding.fab, viewModel = homeViewModel)
+                    displayTest(workout = workout, fab = binding.fab)
                 }
 
                 workout.sets.isEmpty() -> {
@@ -42,7 +42,7 @@ class TodayFragment : Fragment() {
                 }
 
                 else -> {
-                    displayWorkout(workout = workout, fab = binding.fab, viewModel = homeViewModel)
+                    displayWorkout(workout = workout, fab = binding.fab, viewModel = viewModel)
                 }
             }
             binding.dailyActivityContainer.removeAllViews()
@@ -60,13 +60,21 @@ class TodayFragment : Fragment() {
     /**
      * TODO if the workout is completed then display the number of max reps done.
      */
-    fun displayTest(workout: UserWorkout, fab: FloatingActionButton, viewModel: TodayViewModel): View {
+    fun displayTest(workout: UserWorkout, fab: FloatingActionButton): View {
         val testBinding = TodayCardTestBinding.inflate(layoutInflater)
         testBinding.testHeader.setText(R.string.today_test_header)
-        testBinding.testResult.text = requireContext().getString(
-            R.string.today_test_threshold,
-            workout.testThreshold
-        )
+        if (workout.completed != null) {
+            testBinding.testResult.text = requireContext().getString(
+                R.string.today_test_result,
+                workout.completed.motions,
+                workout.testThreshold
+            )
+        } else {
+            testBinding.testResult.text = requireContext().getString(
+                R.string.today_test_threshold,
+                workout.testThreshold
+            )
+        }
 
         fab.visibility = View.VISIBLE
         fab.setImageResource(R.drawable.note)

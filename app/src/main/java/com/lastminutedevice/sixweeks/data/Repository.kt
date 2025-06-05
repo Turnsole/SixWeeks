@@ -63,7 +63,7 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
                     rest = workout.rest,
                     completed = completedList.find { completed ->
                         completed.workoutId == workout.workoutId
-                    } != null,
+                    },
                     sets = setList
                         .filter { set -> set.workoutId == workout.workoutId }
                         .sortedBy { set -> set.ordinal }

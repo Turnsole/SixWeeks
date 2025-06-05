@@ -13,6 +13,7 @@ import com.lastminutedevice.sixweeks.databinding.TestInputFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val PARAM_WORKOUT = "workout"
 
@@ -41,6 +42,9 @@ class TestFragment : BottomSheetDialogFragment() {
             paramWorkout?.let {
                 lifecycleScope.launch(Dispatchers.IO) {
                     viewModel.recordTest(it, maxEffort)
+                    withContext(Dispatchers.IO) {
+                        dismiss()
+                    }
                 }
             }
         }
@@ -49,7 +53,7 @@ class TestFragment : BottomSheetDialogFragment() {
 
     companion object {
 
-        const val TAG : String = "TestFragment"
+        const val TAG: String = "TestFragment"
 
         @JvmStatic
         fun newInstance(workout: UserWorkout) =

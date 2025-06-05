@@ -8,7 +8,7 @@
     <string name="today_rest">Enjoy a rest day.</string>
     <string name="today_test_header">Today is a test!</string>
     <string name="today_test_threshold">Try to do at least %d reps.</string>
-    <string name="today_test_result"/>
+    <string name="today_test_result">You recorded: %d reps, out of a suggested %d.</string>
     <string name="today_workout_header">Workout for %s</string>
     <string name="today_workout">Rest: %d seconds. Sets: %s.</string>
     <string name="today_start_workout_button">Start Workout</string>
