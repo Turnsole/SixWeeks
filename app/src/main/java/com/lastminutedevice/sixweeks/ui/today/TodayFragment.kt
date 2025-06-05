@@ -29,6 +29,7 @@ class TodayFragment : Fragment() {
 
         val homeViewModel = ViewModelProvider(this)[TodayViewModel::class.java]
         val binding = FragmentTodayBinding.inflate(inflater, container, false)
+
         homeViewModel.workout.observe(viewLifecycleOwner) { workout ->
             val cardContents = when {
                 workout.testThreshold != null -> {
@@ -71,7 +72,7 @@ class TodayFragment : Fragment() {
         fab.setImageResource(R.drawable.note)
         fab.setOnClickListener {
             val fragment = TestFragment.newInstance(workout)
-            fragment.show(parentFragmentManager, TestFragment.tag)
+            fragment.show(parentFragmentManager, TestFragment.TAG)
         }
 
         return testBinding.root

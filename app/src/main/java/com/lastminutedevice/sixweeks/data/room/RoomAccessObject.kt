@@ -17,7 +17,8 @@ interface RoomAccessObject {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertSets(sets: List<WorkoutSet>)
 
-    @Insert
+    /** A completed workout can be replaced. **/
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCompletedWorkout(completedWorkout: CompletedWorkout)
 
     @Query("select * from workout where week = :week and day = :day and level = :level")

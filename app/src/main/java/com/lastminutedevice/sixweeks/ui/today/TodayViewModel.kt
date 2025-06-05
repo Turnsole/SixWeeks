@@ -16,8 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class TodayViewModel @Inject constructor(val repository: Repository) : ViewModel() {
 
-
-
     // TODO optimize loading to get only the latest incomplete workout, or an error.
     val workout: LiveData<UserWorkout> = repository.loadWorkouts()
         .filter { list ->
