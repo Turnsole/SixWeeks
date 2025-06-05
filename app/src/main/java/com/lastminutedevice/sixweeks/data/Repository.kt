@@ -10,8 +10,11 @@ import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Repository @Inject constructor(val dao: RoomAccessObject) {
 
     private val tag: String = this::class.java.simpleName
@@ -69,6 +72,9 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
                 )
             }
         }
+            .onEach {
+                Log.d("Repository", "Emitting ${it.size} items.")
+            }
     }
 
     suspend fun recordWorkout(userWorkout: UserWorkout, maxEffort: Int? = null) {
