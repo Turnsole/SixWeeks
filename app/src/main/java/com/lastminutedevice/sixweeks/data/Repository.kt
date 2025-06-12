@@ -5,13 +5,13 @@ import androidx.room.Transaction
 import com.lastminutedevice.sixweeks.NextWorkoutResult
 import com.lastminutedevice.sixweeks.data.json.JsonWorkout
 import com.lastminutedevice.sixweeks.data.models.UserWorkout
-import com.lastminutedevice.sixweeks.data.room.CompletedWorkout
 import com.lastminutedevice.sixweeks.data.room.RoomAccessObject
 import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutSet
+import com.lastminutedevice.sixweeks.data.room.WorkoutUpdatePartial
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,23 +23,21 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
     @Transaction
     suspend fun saveWorkouts(jsonWorkouts: List<JsonWorkout>) {
         jsonWorkouts.forEach { workout ->
+            val sets = workout.sets.map { set ->
+                WorkoutSet(
+                    ordinal = set.ordinal,
+                    reps = set.reps
+                )
+            }
             val entity = Workout(
                 week = workout.week,
                 day = workout.day,
                 level = workout.level,
                 rest = workout.rest,
-                testThreshold = workout.testThreshold
+                testThreshold = workout.testThreshold,
+                sets = sets
             )
-            val workoutId = dao.insertWorkout(entity)
-            val sets = workout.sets.map { set ->
-                WorkoutSet(
-                    ordinal = set.ordinal,
-                    // Generated when the workout was created in the DB.
-                    workoutId = workoutId,
-                    reps = set.reps
-                )
-            }
-            dao.insertSets(sets)
+            dao.insertWorkout(workout = entity)
         }
         if (jsonWorkouts.isEmpty()) {
             Log.e(tag, "Workouts list was empty.")
@@ -63,11 +61,7 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
     }
 
     fun loadWorkouts() : Flow<List<UserWorkout>> {
-        val workoutsFlow =  dao.loadAllWorkouts()
-        val completedFlow = dao.loadAllCompleted()
-        val setFlow = dao.loadSets()
-
-        return combine(setFlow, completedFlow, workoutsFlow) { setList, completedList, workoutList ->
+        return dao.loadAllWorkouts().map { workoutList ->
             workoutList.map { workout ->
                 UserWorkout(
                     id = workout.workoutId,
@@ -75,13 +69,8 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
                     day = workout.day,
                     level = workout.level,
                     rest = workout.rest,
-                    completed = completedList.find { completed ->
-                        completed.workoutId == workout.workoutId
-                    },
-                    sets = setList
-                        .filter { set -> set.workoutId == workout.workoutId }
-                        .sortedBy { set -> set.ordinal }
-                        .map { set -> set.reps },
+                    completed = workout.completed,
+                    sets = workout.sets.map { it.reps }, // Just need the reps for the UI.
                     testThreshold = workout.testThreshold
                 )
             }
@@ -89,11 +78,11 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
     }
 
     suspend fun recordWorkout(userWorkout: UserWorkout, maxEffort: Int? = null) {
-        val completedWorkout = CompletedWorkout(
+        val partial = WorkoutUpdatePartial(
             workoutId = userWorkout.id,
             date = System.currentTimeMillis(),
             motions = maxEffort ?: userWorkout.sets.sum()
         )
-        dao.insertCompletedWorkout(completedWorkout)
+        dao.completeWorkout(partial)
     }
 }

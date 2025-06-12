@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [Workout::class, WorkoutSet::class, CompletedWorkout::class],
+    entities = [Workout::class],
     version = 1,
     exportSchema = false
 )

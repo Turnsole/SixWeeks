@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Singleton
 
@@ -12,24 +13,11 @@ import javax.inject.Singleton
 interface RoomAccessObject {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertWorkout(workouts: Workout): Long
-
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertSets(sets: List<WorkoutSet>)
-
-    /** A completed workout can be replaced. **/
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCompletedWorkout(completedWorkout: CompletedWorkout)
-
-    @Query("select * from workout where week = :week and day = :day and level = :level")
-    suspend fun loadWorkout(week: Int, day: Int, level: Int): List<Workout>
+    suspend fun insertWorkout(workout: Workout): Long
 
     @Query("select * from workout order by week, day")
     fun loadAllWorkouts(): Flow<List<Workout>>
 
-    @Query("select * from completedworkout")
-    fun loadAllCompleted(): Flow<List<CompletedWorkout>>
-
-    @Query("select * from workoutset")
-    fun loadSets(): Flow<List<WorkoutSet>>
+    @Update(entity = Workout::class)
+    suspend fun completeWorkout(partial: WorkoutUpdatePartial)
 }
