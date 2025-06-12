@@ -20,4 +20,10 @@ interface RoomAccessObject {
 
     @Update(entity = Workout::class)
     suspend fun completeWorkout(partial: WorkoutUpdatePartial)
+
+    @Query("select * from workout where date = (select max(date) from workout) limit 1")
+    fun mostRecentCompleted(): Flow<Workout?>
+
+    @Query("select * from workout where workoutId = :workoutId")
+    suspend fun getWorkout(workoutId: Long): Workout?
 }
