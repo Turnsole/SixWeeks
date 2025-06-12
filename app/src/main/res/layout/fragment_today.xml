@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/daily_activity_container"
@@ -27,14 +28,17 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:src="@drawable/ink_marker"
-            app:layout_constraintTop_toBottomOf="@id/daily_activity_container"
-            app:layout_constraintEnd_toEndOf="@id/daily_activity_container"
-            android:layout_marginTop="-25dp"
             android:layout_marginStart="-25dp"
-            android:contentDescription="@string/today_start_workout_button" />
+            android:layout_marginTop="-25dp"
+            android:contentDescription="@string/today_start_workout_button"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/daily_activity_container"
+            app:layout_constraintTop_toBottomOf="@id/daily_activity_container"
+            tools:src="@drawable/ink_marker"
+            tools:visibility="visible" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/week_progress_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -44,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@id/fab">
 
             <TextView
-                android:id="@+id/week_progress"
+                android:id="@+id/week_progress_message"
                 style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

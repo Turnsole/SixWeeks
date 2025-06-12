@@ -14,4 +14,6 @@
     <string name="today_start_workout_button">Start Workout</string>
     <string name="test_title">Your max reps:</string>
     <string name="test_submit_button_label">Save</string>
+    <string name="today_done_message">Congratulations, you are done!</string>
+    <string name="today_error_message">There has been an error.</string>
 </resources>

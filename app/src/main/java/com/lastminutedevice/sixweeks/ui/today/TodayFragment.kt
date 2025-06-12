@@ -10,6 +10,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.lastminutedevice.sixweeks.R
 import com.lastminutedevice.sixweeks.data.models.UserWorkout
 import com.lastminutedevice.sixweeks.databinding.FragmentTodayBinding
+import com.lastminutedevice.sixweeks.databinding.TodayCardCompleteBinding
+import com.lastminutedevice.sixweeks.databinding.TodayCardErrorBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardRestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardTestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardWorkoutBinding
@@ -30,25 +32,35 @@ class TodayFragment : Fragment() {
         val viewModel = ViewModelProvider(this)[TodayViewModel::class.java]
         val binding = FragmentTodayBinding.inflate(inflater, container, false)
 
-        viewModel.workout.observe(viewLifecycleOwner) { workout ->
+        viewModel.workout.observe(viewLifecycleOwner) { state ->
             val cardContents = when {
-                workout.testThreshold != null -> {
-                    displayTest(workout = workout, fab = binding.fab)
+                state.nextWorkout == null -> {
+                    if (state.programComplete) {
+                        displayProgramComplete()
+                    } else {
+                        displayError()
+                    }
+                }
+                state.nextWorkout.testThreshold != null -> {
+                    displayTest(workout = state.nextWorkout, fab = binding.fab)
                 }
 
-                workout.sets.isEmpty() -> {
+                state.nextWorkout.sets.isEmpty() -> {
                     binding.fab.visibility = View.GONE
                     displayRest()
                 }
 
                 else -> {
-                    displayWorkout(workout = workout, fab = binding.fab, viewModel = viewModel)
+                    displayWorkout(workout = state.nextWorkout, fab = binding.fab, viewModel = viewModel)
                 }
             }
             binding.dailyActivityContainer.removeAllViews()
             binding.dailyActivityContainer.addView(cardContents)
-            binding.weekProgress.text =
-                requireContext().getString(R.string.today_progress, workout.week)
+
+            state.nextWorkout?.let { workout ->
+                binding.weekProgressMessage.text = requireContext()
+                    .getString(R.string.today_progress, workout.week)
+            } ?: run { binding.weekProgressCard.visibility = View.GONE }
         }
         return binding.root
     }
@@ -57,9 +69,6 @@ class TodayFragment : Fragment() {
         return TodayCardRestBinding.inflate(layoutInflater).root
     }
 
-    /**
-     * TODO if the workout is completed then display the number of max reps done.
-     */
     fun displayTest(workout: UserWorkout, fab: FloatingActionButton): View {
         val testBinding = TodayCardTestBinding.inflate(layoutInflater)
         testBinding.testHeader.setText(R.string.today_test_header)
@@ -105,5 +114,13 @@ class TodayFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun displayProgramComplete() : View {
+        return TodayCardCompleteBinding.inflate(layoutInflater).root
+    }
+
+    fun displayError() : View {
+        return TodayCardErrorBinding.inflate(layoutInflater).root
     }
 }

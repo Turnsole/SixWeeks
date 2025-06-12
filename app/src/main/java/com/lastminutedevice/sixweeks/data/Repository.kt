@@ -2,6 +2,7 @@ package com.lastminutedevice.sixweeks.data
 
 import android.util.Log
 import androidx.room.Transaction
+import com.lastminutedevice.sixweeks.NextWorkoutResult
 import com.lastminutedevice.sixweeks.data.json.JsonWorkout
 import com.lastminutedevice.sixweeks.data.models.UserWorkout
 import com.lastminutedevice.sixweeks.data.room.CompletedWorkout
@@ -10,7 +11,7 @@ import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,13 +48,26 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
         }
     }
 
+    /**
+        Get the last completed workout. If the date is today, then it was completed today,
+        so load that workout from the DAO and emit it.
+
+        If the last completed workout is from a date previous to today, then get the next
+        workout based on the (auto-incremented) ID. (When available.)
+
+        If there is no workout with the next ID, emit a state with no workout
+        but programComplete is true.
+     */
+    fun getNextWorkout() : Flow<NextWorkoutResult> {
+        return flow { emit(NextWorkoutResult(nextWorkout = null, programComplete = true)) }
+    }
+
     fun loadWorkouts() : Flow<List<UserWorkout>> {
         val workoutsFlow =  dao.loadAllWorkouts()
         val completedFlow = dao.loadAllCompleted()
         val setFlow = dao.loadSets()
 
         return combine(setFlow, completedFlow, workoutsFlow) { setList, completedList, workoutList ->
-            Log.d("Repository", "Combining: ${workoutList.size} workouts, ${completedList.size} completed, ${setList.size} sets")
             workoutList.map { workout ->
                 UserWorkout(
                     id = workout.workoutId,
@@ -72,9 +86,6 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
                 )
             }
         }
-            .onEach {
-                Log.d("Repository", "Emitting ${it.size} items.")
-            }
     }
 
     suspend fun recordWorkout(userWorkout: UserWorkout, maxEffort: Int? = null) {
