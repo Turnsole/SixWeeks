@@ -13,5 +13,5 @@ class JsonWorkout(
     val level: String,
     val rest: Int,
     val sets: List<JsonWorkoutSet>,
-    val testThreshold: Int? = 0
+    val testThreshold: Int = 0
 )

@@ -41,7 +41,7 @@ class TodayFragment : Fragment() {
                         displayError()
                     }
                 }
-                state.nextWorkout.testThreshold != null -> {
+                (state.nextWorkout.testThreshold ?: 0) > 0 -> {
                     displayTest(workout = state.nextWorkout, fab = binding.fab)
                 }
 

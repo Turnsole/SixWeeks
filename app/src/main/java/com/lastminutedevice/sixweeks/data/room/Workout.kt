@@ -12,7 +12,7 @@ data class Workout (
     val level: String,
     val rest: Int,
     /** Some days of some programs are a test of $threshold+ motions. Results recorded to the Test table. **/
-    val testThreshold: Int? = null,
+    val testThreshold: Int = 0,
     val sets: List<WorkoutSet>,
     @Embedded
     val completed: CompletedWorkout? = null

@@ -11,5 +11,5 @@ data class UserWorkout(
     val rest: Int,
     val completed: CompletedWorkout? = null,
     val sets: List<Int>,
-    val testThreshold: Int? = null
+    val testThreshold: Int = 0
 ) : Serializable

@@ -49,8 +49,7 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
     }
 
     /**
-        Get the last completed workout. If the date is today, then it was completed today,
-        so load that workout from the DAO and emit it.
+        Get the last completed workout. If the date is today, then emit it.
 
         If the last completed workout is from a date previous to today, then get the next
         workout based on the (auto-incremented) ID. (When available.)
