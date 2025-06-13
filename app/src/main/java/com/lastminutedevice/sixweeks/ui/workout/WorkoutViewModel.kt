@@ -45,7 +45,7 @@ class WorkoutViewModel @Inject constructor(val repository: Repository) : ViewMod
                 result.nextWorkout
                     ?.let { workout ->
                         _sets = ArrayDeque<Int>(workout.sets)
-                        _rest = 10 // workout.rest TODO
+                        _rest = workout.rest
                         _workout = workout
                         _currentReps.postValue(_sets.removeFirstOrNull())
                         _viewState.postValue(ViewState.SET)
