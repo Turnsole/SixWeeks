@@ -26,4 +26,31 @@ interface RoomAccessObject {
 
     @Query("select * from workout where workoutId = :workoutId")
     suspend fun getWorkout(workoutId: Long): Workout?
+
+    @Query("select * from workout where workoutId = (select max(workoutId) from workout where date is not null and testThreshold > 0)")
+    fun getLastTest(): Flow<Workout?>
+
+    /**
+     * Returns the next workout for this week and level.
+     *
+     * @return null if there are no more workouts this week.
+     */
+    @Query("select * from workout where week = :week and day = (:day + 1) and level = :level")
+    suspend fun getNextWorkoutThisWeek(week: Int, day: Int, level: Int) : Workout?
+
+    /**
+     * Returns the first workout of next week for this level.
+     *
+     * @return null if the level ends this week (time for a test).
+     */
+    @Query("select * from workout where week = (:week + 1) and day = 1 and level = :level")
+    suspend fun getNextWeekThisLevel(week: Int, level: Int) : Workout?
+
+    /**
+     * Finds the next workout which is an uncompleted test.
+     *
+     * @return the next test's threshold
+     */
+    @Query("select * from workout where workoutId = (select min(workoutId) from workout where date is null and testThreshold > 0)")
+    suspend fun getNextTest() : Workout?
 }

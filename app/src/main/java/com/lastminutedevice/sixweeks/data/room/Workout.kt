@@ -9,7 +9,7 @@ data class Workout (
     @PrimaryKey(autoGenerate = true) val workoutId: Long = 0,
     val week: Int,
     val day: Int,
-    val level: String,
+    val level: Int,
     val rest: Int,
     /** Some days of some programs are a test of $threshold+ motions. Results recorded to the Test table. **/
     val testThreshold: Int = 0,

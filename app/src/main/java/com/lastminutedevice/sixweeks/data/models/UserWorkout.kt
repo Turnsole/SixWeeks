@@ -7,7 +7,7 @@ data class UserWorkout(
     val id: Long,
     val week: Int,
     val day: Int,
-    val level: String,
+    val level: Int,
     val rest: Int,
     val completed: CompletedWorkout? = null,
     val sets: List<Int>,

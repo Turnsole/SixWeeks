@@ -10,7 +10,7 @@ package com.lastminutedevice.sixweeks.data.json
 class JsonWorkout(
     val week: Int,
     val day: Int,
-    val level: String,
+    val level: Int,
     val rest: Int,
     val sets: List<JsonWorkoutSet>,
     val testThreshold: Int = 0

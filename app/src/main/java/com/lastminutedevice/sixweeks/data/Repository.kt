@@ -49,40 +49,50 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
     }
 
     /**
-        Get the last completed workout. If the date is today, then emit it.
-
-        If the last completed workout is from a date previous to today, then get the next
-        workout based on the (auto-incremented) ID. (When available.)
-
-        If there is no workout with the next ID, emit a state with no workout
-        but programComplete is true.
+     * This is the most complicated part of the app: the selection logic.
+     *
+     * Get the last completed workout. If the date is today, then emit it.
+     *
+     * If the last completed workout is from a date previous to today, then get the next
+     * workout in the week, or the first next workout next week, or the next test, as appropriate.
+     *
+     * If there is no next workout, emit a state with no workout but programComplete is true.
      */
-    fun getNextWorkout() : Flow<NextWorkoutResult> {
-         return dao.mostRecentCompleted().map { completedWorkout ->
-             val entity = if (completedWorkout == null) {
-                 dao.getWorkout(workoutId = 1) // No completed workouts, so start at the beginning.
-             } else if (completedWorkout.isToday()) {
+    fun getNextWorkout(): Flow<NextWorkoutResult> {
+        return dao.mostRecentCompleted().map { completedWorkout ->
+            val entity = if (completedWorkout == null) {
+                dao.getWorkout(workoutId = 1) // No completed workouts, so start at the beginning.
+            } else if (completedWorkout.isToday()) {
                 completedWorkout // Show the workout you did today.
             } else {
-                dao.getWorkout(workoutId = completedWorkout.workoutId + 1) // Get the next workout.
-             }
-             if (entity != null) {
-                 NextWorkoutResult(
-                     nextWorkout = UserWorkout(
-                         id = entity.workoutId,
-                         week = entity.week,
-                         day = entity.day,
-                         level = entity.level,
-                         rest = entity.rest,
-                         completed = entity.completed,
-                         sets = entity.sets.sortedBy { it.ordinal }.map { it.reps },
-                         testThreshold = entity.testThreshold
-                     ),
-                     programComplete = false
-                 )
-             } else {
-                 NextWorkoutResult(nextWorkout = null, programComplete = true)
-             }
+                // Figure out the next workout based on your level and progress.
+                dao.getNextWorkoutThisWeek(
+                    week = completedWorkout.week,
+                    day = completedWorkout.day,
+                    level = completedWorkout.level
+                ) ?: dao.getNextWeekThisLevel(
+                    week = completedWorkout.week,
+                    level = completedWorkout.level
+                ) ?: dao.getNextTest()
+            }
+            if (entity != null) {
+                NextWorkoutResult(
+                    nextWorkout = UserWorkout(
+                        id = entity.workoutId,
+                        week = entity.week,
+                        day = entity.day,
+                        level = entity.level,
+                        rest = entity.rest,
+                        completed = entity.completed,
+                        // Enforce order.
+                        sets = entity.sets.sortedBy { it.ordinal }.map { it.reps },
+                        testThreshold = entity.testThreshold
+                    ),
+                    programComplete = false
+                )
+            } else {
+                NextWorkoutResult(nextWorkout = null, programComplete = true)
+            }
         }
     }
 
@@ -99,20 +109,13 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
         return LocalDate.now(ZoneId.systemDefault()) == localDateForTimestamp
     }
 
-    fun loadWorkouts() : Flow<List<UserWorkout>> {
+    fun getLastTest(): Flow<UserWorkout?> {
+        return dao.getLastTest().map { entity -> entity?.toUserWorkout() }
+    }
+
+    fun loadWorkouts(): Flow<List<UserWorkout>> {
         return dao.loadAllWorkouts().map { workoutList ->
-            workoutList.map { workout ->
-                UserWorkout(
-                    id = workout.workoutId,
-                    week = workout.week,
-                    day = workout.day,
-                    level = workout.level,
-                    rest = workout.rest,
-                    completed = workout.completed,
-                    sets = workout.sets.map { it.reps }, // Just need the reps for the UI.
-                    testThreshold = workout.testThreshold
-                )
-            }
+            workoutList.map { entity -> entity.toUserWorkout() }
         }
     }
 
@@ -123,5 +126,21 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
             motions = maxEffort ?: userWorkout.sets.sum()
         )
         dao.completeWorkout(partial)
+    }
+
+    /**
+     * Convert from Entity to the UI model.
+     */
+    private fun Workout.toUserWorkout() : UserWorkout {
+        return UserWorkout(
+            id = workoutId,
+            week = week,
+            day = day,
+            level = level,
+            rest = rest,
+            completed = completed,
+            sets = sets.map { it.reps }, // Just need the reps for the UI.
+            testThreshold = testThreshold
+        )
     }
 }

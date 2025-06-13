@@ -16,8 +16,10 @@ import com.lastminutedevice.sixweeks.databinding.TodayCardRestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardTestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardWorkoutBinding
 import com.lastminutedevice.sixweeks.ui.test.TestFragment
+import com.lastminutedevice.sixweeks.ui.workout.WorkoutFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
+import java.time.Instant
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
@@ -32,6 +34,20 @@ class TodayFragment : Fragment() {
         val viewModel = ViewModelProvider(this)[TodayViewModel::class.java]
         val binding = FragmentTodayBinding.inflate(inflater, container, false)
 
+        // Show the last test results.
+        viewModel.lastTest.observe(viewLifecycleOwner) { test ->
+            test?.completed?.motions?.let { motions ->
+                binding.lastTestCard.visibility = View.VISIBLE
+                val localDateForTimestamp = Instant.ofEpochMilli(test.completed.date)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()
+                binding.lastTestDate.text = localDateForTimestamp.format(DateTimeFormatter.ofPattern("MMMM d, y"))
+                val motions = resources.getQuantityString(R.plurals.reps, motions, motions)
+                binding.lastTestMessage.text = getString(R.string.today_last_test, motions)
+            }
+        }
+
+        // Show today's workout.
         viewModel.workout.observe(viewLifecycleOwner) { state ->
             val cardContents = when {
                 state.nextWorkout == null -> {
@@ -41,26 +57,31 @@ class TodayFragment : Fragment() {
                         displayError()
                     }
                 }
-                (state.nextWorkout.testThreshold ?: 0) > 0 -> {
-                    displayTest(workout = state.nextWorkout, fab = binding.fab)
+                state.nextWorkout.testThreshold > 0 -> {
+                    displayTest(
+                        workout = state.nextWorkout,
+                        fab = binding.fab
+                    )
                 }
 
-                state.nextWorkout.sets.isEmpty() -> {
-                    binding.fab.visibility = View.GONE
-                    displayRest()
-                }
+                state.nextWorkout.sets.isEmpty() -> displayRest()
 
                 else -> {
-                    displayWorkout(workout = state.nextWorkout, fab = binding.fab, viewModel = viewModel)
+                    displayWorkout(
+                        workout = state.nextWorkout,
+                        fab = binding.fab
+                    )
                 }
             }
             binding.dailyActivityContainer.removeAllViews()
             binding.dailyActivityContainer.addView(cardContents)
 
+            // Show overall progress.
             state.nextWorkout?.let { workout ->
-                binding.weekProgressMessage.text = requireContext()
-                    .getString(R.string.today_progress, workout.week)
-            } ?: run { binding.weekProgressCard.visibility = View.GONE }
+                binding.weekProgressCard.visibility = View.VISIBLE
+                binding.weekProgressMessage.text = getString(R.string.today_progress, workout.day, workout.week)
+                binding.progressBar.progress = ((workout.week / 6f) * 100).toInt()
+            }
         }
         return binding.root
     }
@@ -73,13 +94,13 @@ class TodayFragment : Fragment() {
         val testBinding = TodayCardTestBinding.inflate(layoutInflater)
         testBinding.testHeader.setText(R.string.today_test_header)
         if (workout.completed != null) {
-            testBinding.testResult.text = requireContext().getString(
+            testBinding.testResult.text = getString(
                 R.string.today_test_result,
                 workout.completed.motions,
                 workout.testThreshold
             )
         } else {
-            testBinding.testResult.text = requireContext().getString(
+            testBinding.testResult.text = getString(
                 R.string.today_test_threshold,
                 workout.testThreshold
             )
@@ -95,22 +116,26 @@ class TodayFragment : Fragment() {
         return testBinding.root
     }
 
-    fun displayWorkout(workout: UserWorkout, fab: FloatingActionButton, viewModel: TodayViewModel): View {
+    fun displayWorkout(workout: UserWorkout, fab: FloatingActionButton): View {
         val binding = TodayCardWorkoutBinding.inflate(layoutInflater)
-        binding.workoutHeader.text = requireContext().getString(
-            R.string.today_workout_header,
-            LocalDate.now().format(DateTimeFormatter.ofPattern("E, MMMM d"))
-        )
-        binding.workoutSets.text = requireContext().getString(
-            R.string.today_workout,
-            workout.rest,
-            workout.sets.joinToString(", ")
-        )
+        binding.workoutHeader.text = getString(R.string.today_workout_header)
 
-        fab.visibility = View.VISIBLE
-        fab.setImageResource(R.drawable.ink_marker)
-        fab.setOnClickListener {
-            viewModel.recordWorkout(workout)
+        if (workout.completed == null) {
+            binding.workoutSets.text = getString(
+                R.string.today_workout,
+                workout.rest,
+                workout.sets.joinToString(", ")
+            )
+
+            fab.visibility = View.VISIBLE
+            fab.setImageResource(R.drawable.ink_marker)
+            fab.setOnClickListener {
+                WorkoutFragment().show(parentFragmentManager, "workout")
+            }
+        } else {
+            val sum = workout.sets.sum()
+            val reps = resources.getQuantityString(R.plurals.reps, sum, sum)
+            binding.workoutSets.text = getString(R.string.today_completed, reps)
         }
 
         return binding.root
