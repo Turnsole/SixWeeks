@@ -66,12 +66,12 @@ class Loader(private val repository: Repository, private val context: Context) {
             }
             return buffer.toString()
         } catch (e: IOException) {
-            Log.e(tag, "Failure opening $name")
+            Log.e(tag, "Failure opening $name", e)
         } finally {
             try {
                 inputReader?.close()
             } catch (e: IOException) {
-                Log.e(tag, "Failure closing $name")
+                Log.e(tag, "Failure closing $name", e)
             }
         }
         throw Exception("Couldn't load asset file.")

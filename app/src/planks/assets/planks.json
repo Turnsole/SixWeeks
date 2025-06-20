@@ -1,0 +1,508 @@
+{
+  "workouts":
+  [
+    {
+      "day": 0,
+      "week": 1,
+      "sets":[],
+      "testThreshold": 15
+    },
+    {
+      "day": 1,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 20
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 20
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 30
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 30
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 45
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 55
+        }
+      ]
+    },
+    {
+      "day": 7,
+      "week": 1,
+      "sets":
+      []
+    },
+    {
+      "day": 8,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 60
+        }
+      ]
+    },
+    {
+      "day": 9,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 75
+        }
+      ]
+    },
+    {
+      "day": 10,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 75
+        }
+      ]
+    },
+    {
+      "day": 11,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 60
+        },
+        {
+          "ordinal": 2,
+          "reps": 60
+        }
+      ],
+      "rest": 60
+    },
+    {
+      "day": 12,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 90
+        }
+      ]
+    },
+    {
+      "day": 13,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 90
+        }
+      ]
+    },
+    {
+      "day": 14,
+      "week": 1,
+      "sets":
+      []
+    },
+    {
+      "day": 15,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 60
+        },
+        {
+          "ordinal": 2,
+          "reps": 60
+        }
+      ],
+      "rest": 60
+    },
+    {
+      "day": 16,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 105
+        }
+      ]
+    },
+    {
+      "day": 17,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 120
+        }
+      ]
+    },
+    {
+      "day": 18,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 60
+        },
+        {
+          "ordinal": 2,
+          "reps": 60
+        }
+      ],
+      "rest": 60
+    },
+    {
+      "day": 19,
+      "week": 1,
+      "sets":
+      []
+    },
+    {
+      "day": 20,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 120
+        }
+      ]
+    },
+    {
+      "day": 21,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 75
+        },
+        {
+          "ordinal": 2,
+          "reps": 75
+        }
+      ],
+      "rest": 90
+    },
+    {
+      "day": 22,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 120
+        }
+      ]
+    },
+    {
+      "day": 23,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 75
+        },
+        {
+          "ordinal": 2,
+          "reps": 75
+        }
+      ],
+      "rest": 90
+    },
+    {
+      "day": 24,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 120
+        }
+      ]
+    },
+    {
+      "day": 25,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 75
+        },
+        {
+          "ordinal": 2,
+          "reps": 75
+        }
+      ],
+      "rest": 90
+    },
+    {
+      "day": 26,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 150
+        }
+      ]
+    },
+    {
+      "day": 27,
+      "week": 1,
+      "sets":
+      []
+    },
+    {
+      "day": 28,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 150
+        }
+      ]
+    },
+    {
+      "day": 29,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 90
+        },
+        {
+          "ordinal": 2,
+          "reps": 90
+        }
+      ],
+      "rest": 120
+    },
+    {
+      "day": 30,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 180
+        }
+      ]
+    },
+    {
+      "day": 31,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 100
+        },
+        {
+          "ordinal": 2,
+          "reps": 100
+        }
+      ],
+      "rest": 120
+    },
+    {
+      "day": 32,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 195
+        }
+      ]
+    },
+    {
+      "day": 33,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 105
+        },
+        {
+          "ordinal": 2,
+          "reps": 105
+        }
+      ],
+      "rest": 120
+    },
+    {
+      "day": 34,
+      "week": 1,
+      "sets":
+      []
+    },
+    {
+      "day": 35,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 120
+        },
+        {
+          "ordinal": 2,
+          "reps": 120
+        }
+      ],
+      "rest": 120
+    },
+    {
+      "day": 36,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 240
+        }
+      ]
+    },
+    {
+      "day": 37,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 120
+        },
+        {
+          "ordinal": 2,
+          "reps": 120
+        }
+      ],
+      "rest": 120
+    },
+    {
+      "day": 38,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 240
+        }
+      ]
+    },
+    {
+      "day": 39,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 150
+        },
+        {
+          "ordinal": 2,
+          "reps": 150
+        }
+      ],
+      "rest": 120
+    },
+    {
+      "day": 40,
+      "week": 1,
+      "sets":
+      []
+    },
+    {
+      "day": 41,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 150
+        },
+        {
+          "ordinal": 2,
+          "reps": 150
+        }
+      ],
+      "rest": 120
+    },
+    {
+      "day": 42,
+      "week": 1,
+      "sets":
+      [
+        {
+          "ordinal": 1,
+          "reps": 300
+        }
+      ]
+    }
+  ]
+}
