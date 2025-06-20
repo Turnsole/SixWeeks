@@ -35,6 +35,24 @@ android {
             versionNameSuffix "-pushup"
             buildConfigField("String", "skill", "\"pushups\"") // Provide access to the skill name in code.
         }
+        situps {
+            dimension = "skill"
+            applicationIdSuffix ".situps"
+            versionNameSuffix "-situp"
+            buildConfigField("String", "skill", "\"situps\"")
+        }
+        planks {
+            dimension = "skill"
+            applicationIdSuffix ".planks"
+            versionNameSuffix "-plank"
+            buildConfigField("String", "skill", "\"planks\"")\
+        }
+        squats {
+            dimension = "skill"
+            applicationIdSuffix ".squats"
+            versionNameSuffix "-squat"
+            buildConfigField("String", "skill", "\"squats\"")
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
