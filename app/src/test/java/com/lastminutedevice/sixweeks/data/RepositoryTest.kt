@@ -14,8 +14,13 @@ import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.mockito.kotlin.whenever
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import kotlin.test.assertEquals
 
+/**
+ * TODO actually run the loader into a test DB and test the queries themselves instead.
+ */
 class RepositoryTest {
 
     @Mock
@@ -63,5 +68,27 @@ class RepositoryTest {
         whenever(mockDatabase.mostRecentCompleted()).thenReturn(flowOf(workoutDoneToday))
         val result = repository.getNextWorkout().first().nextWorkout
         assertEquals(result?.id, workoutDoneToday.workoutId)
+    }
+
+    @Test
+    fun `if the most recent workout was not today then search db`() = runTest {
+        val history = LocalDateTime.of(1900, 1, 1, 1, 1).toEpochSecond(ZoneOffset.UTC)
+        val historicalWorkout = Workout(
+            workoutId = 69,
+            week = 3,
+            day = 3,
+            level = 3,
+            rest = 3,
+            testThreshold = 3,
+            sets = listOf(),
+            completed = CompletedWorkout(
+                date = history,
+                motions = 3
+            )
+        )
+
+        whenever(mockDatabase.mostRecentCompleted()).thenReturn(flowOf(historicalWorkout))
+        val result = repository.getNextWorkout().first().nextWorkout
+        assertEquals(result?.id, historicalWorkout.workoutId)
     }
 }
