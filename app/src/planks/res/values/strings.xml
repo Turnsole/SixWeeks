@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">6W Planks</string>
     <plurals name="reps">
-        <item quantity="one">1 plank</item>
-        <item quantity="other">%d planks</item>
+        <item quantity="one">a 1 second plank</item>
+        <item quantity="other">a %d second plank</item>
     </plurals>
 </resources>

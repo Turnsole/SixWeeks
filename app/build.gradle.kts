@@ -114,7 +114,9 @@ dependencies {
     // Instrumented tests.
 
     androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
+    androidTestImplementation("androidx.test:core-ktx:1.6.1")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
     androidTestImplementation("androidx.test:runner:1.6.2")
+
     androidTestUtil("androidx.test:orchestrator:1.5.1")
 }

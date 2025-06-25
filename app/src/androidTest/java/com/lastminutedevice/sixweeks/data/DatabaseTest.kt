@@ -9,7 +9,10 @@ import com.lastminutedevice.sixweeks.data.room.Workout
 import com.lastminutedevice.sixweeks.data.room.WorkoutUpdatePartial
 import com.lastminutedevice.sixweeks.loader.Loader
 import com.lastminutedevice.sixweeks.test.BuildConfig
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
 import org.junit.After
@@ -19,7 +22,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 /**
@@ -30,6 +32,7 @@ import kotlin.test.assertNull
  * of the business logic of this app is encapsulated in SQL queries it is important to have
  * robust testing.
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class RepositoryTest {
 
@@ -40,13 +43,19 @@ class RepositoryTest {
     private lateinit var repository: Repository
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.databaseBuilder(context, Database::class.java, "test_database").build()
-
         repository = Repository(db.dao())
-        Loader(repository, context).load() // Load up the actual data.
-        advanceUntilIdle()
+
+        launch {
+            Loader(
+                repository = repository,
+                context = context
+            ).load() // Load up the actual data.
+        }
+
+        advanceUntilIdle() // Setup waits for the data to load (context handled by runTest).
     }
 
     @After
@@ -64,6 +73,11 @@ class RepositoryTest {
 
     @Test
     fun testPushups() = runTest {
+        assumeThat(
+            "Test is only for pushups flavour",
+            BuildConfig.skill,
+            CoreMatchers.equalTo("pushups")
+        )
 
         var test: Workout? = db.dao().getNextTest()
 
@@ -99,10 +113,8 @@ class RepositoryTest {
         )
 
         // Check that all the workouts made it into the DB.
-        for (day in 1..42) { // Should match # of workouts in JSON file.
-            val workout = db.dao().getWorkout(workoutId = day.toLong())
-            assertNotNull(workout, "Day $day missing.") // Every workout should be here.
-        }
+        val list = db.dao().loadAllWorkouts().first()
+        assertEquals(expected = 42, actual = list.size)
     }
 
 

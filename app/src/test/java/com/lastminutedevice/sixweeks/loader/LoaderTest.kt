@@ -6,7 +6,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.lastminutedevice.sixweeks.data.Repository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -52,8 +51,7 @@ class LoaderTest {
 
         Loader(
             repository = mockRepository,
-            context = mockContext,
-            dispatcher = UnconfinedTestDispatcher()
+            context = mockContext
         ).load()
 
         advanceUntilIdle()

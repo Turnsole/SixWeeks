@@ -8,11 +8,6 @@ import com.lastminutedevice.sixweeks.data.json.JsonWorkoutFile
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
@@ -23,23 +18,16 @@ import java.io.InputStreamReader
  */
 class Loader(
     private val repository: Repository,
-    private val context: Context,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val context: Context
 ) {
 
     private val tag: String = this::class.java.simpleName
 
     private val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
-    private val loaderScope = CoroutineScope(Job() + dispatcher)
-
-    fun load() {
-        loaderScope.launch {
-            repository.loadWorkouts().collect { result ->
-                if (result.isEmpty()) {
-                    importProgram(name = BuildConfig.skill)
-                }
-            }
+    suspend fun load() {
+        if (repository.dao.getWorkout(workoutId = 1) == null) {
+            importProgram(name = BuildConfig.skill)
         }
     }
 
