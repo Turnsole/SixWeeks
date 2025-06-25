@@ -1,11 +1,13 @@
 package com.lastminutedevice.sixweeks.data
 
 import android.content.Context
+import android.os.Build
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.lastminutedevice.sixweeks.data.room.Database
 import com.lastminutedevice.sixweeks.loader.Loader
+import com.lastminutedevice.sixweeks.test.BuildConfig
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -42,8 +44,15 @@ class RepositoryTest {
         db.close()
     }
 
+    /**
+     * Step through all the levels of the program in this build flavour.
+     */
+    @Suppress("KotlinConstantConditions")
     @Test
-    fun doSomething() {
+    fun testLeveling() {
+        if (BuildConfig.skill == "planks") {
+            // The planks program has only one level.
+        }
         assert(true)
     }
 }
