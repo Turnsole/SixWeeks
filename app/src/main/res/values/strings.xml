@@ -4,11 +4,11 @@
     <string name="title_program">Program</string>
     <string name="program_list_header">Week %d</string>
     <string name="program_list_day">Day %d: %s</string>
-    <string name="today_progress">You are on day %d of week %d.</string>
+    <string name="today_progress">You are on day %1d of week %2d.</string>
     <string name="today_rest">Enjoy a rest day.</string>
     <string name="today_test_header">Today is a test!</string>
     <string name="today_test_threshold">Try to do at least %d reps.</string>
-    <string name="today_test_result">You recorded: %d reps, out of a suggested %d.</string>
+    <string name="today_test_result">You recorded: %1d reps, out of a suggested %2d.</string>
     <string name="today_workout_header">Today\'s Workout</string>
     <string name="today_workout">Rest: %d seconds. Sets: %s.</string>
     <string name="today_start_workout_button">Start Workout</string>
