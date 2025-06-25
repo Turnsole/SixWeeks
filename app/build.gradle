@@ -1,28 +1,33 @@
 plugins {
-    id('com.android.application')
-    id('org.jetbrains.kotlin.android')
-    id('com.google.devtools.ksp')
-    id('com.google.dagger.hilt.android')
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
 
-    namespace "com.lastminutedevice.sixweeks"
-    compileSdk 36
+    namespace = "com.lastminutedevice.sixweeks"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId "com.lastminutedevice.sixweeks"
-        minSdk 26
-        targetSdk 36
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.lastminutedevice.sixweeks"
+        minSdk = 26
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments.clearPackageData = 'true' // Clear between tests.
+    }
+
+    testOptions {
+        execution = 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -31,45 +36,46 @@ android {
     productFlavors {
         pushups {
             dimension = "skill"
-            applicationIdSuffix ".pushups"
-            versionNameSuffix "-pushup"
+            applicationIdSuffix = ".pushups"
+            versionNameSuffix = "-pushup"
             buildConfigField("String", "skill", "\"pushups\"") // Provide access to the skill name in code.
         }
         situps {
             dimension = "skill"
-            applicationIdSuffix ".situps"
-            versionNameSuffix "-situp"
+            applicationIdSuffix = ".situps"
+            versionNameSuffix = "-situp"
             buildConfigField("String", "skill", "\"situps\"")
         }
         planks {
             dimension = "skill"
-            applicationIdSuffix ".planks"
-            versionNameSuffix "-plank"
-            buildConfigField("String", "skill", "\"planks\"")\
+            applicationIdSuffix = ".planks"
+            versionNameSuffix = "-plank"
+            buildConfigField("String", "skill", "\"planks\"")
         }
         squats {
             dimension = "skill"
-            applicationIdSuffix ".squats"
-            versionNameSuffix "-squat"
+            applicationIdSuffix = ".squats"
+            versionNameSuffix = "-squat"
             buildConfigField("String", "skill", "\"squats\"")
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '11'
     }
     buildFeatures {
-        viewBinding true
-        buildConfig true
+        viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
+    implementation 'androidx.test.ext:junit-ktx:1.2.1'
     def coroutines_version = "1.10.2"
-    def room_version = "2.7.1"
+    def room_version = "2.7.2"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
@@ -82,7 +88,7 @@ dependencies {
     implementation "androidx.room:room-paging:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
-    implementation "com.squareup.moshi:moshi-kotlin:1.14.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.15.2"
 
     implementation 'androidx.core:core-ktx:1.16.0'
     implementation 'androidx.appcompat:appcompat:1.7.1'
@@ -98,10 +104,13 @@ dependencies {
 
     ksp "com.google.dagger:hilt-compiler:2.56.2"
 
+    testImplementation 'androidx.test:core-ktx:1.6.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito:mockito-core:5.18.0"
     testImplementation "org.mockito.kotlin:mockito-kotlin:5.4.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     implementation "org.jetbrains.kotlin:kotlin-test:2.1.21"
 
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestUtil 'androidx.test:orchestrator:1.5.1'
 }
