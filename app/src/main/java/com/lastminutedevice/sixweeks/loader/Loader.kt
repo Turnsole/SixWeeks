@@ -8,6 +8,7 @@ import com.lastminutedevice.sixweeks.data.json.JsonWorkoutFile
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -20,13 +21,17 @@ import java.io.InputStreamReader
 /**
  * Loads JSON files packaged with the app into the Repository.
  */
-class Loader(private val repository: Repository, private val context: Context) {
+class Loader(
+    private val repository: Repository,
+    private val context: Context,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
     private val tag: String = this::class.java.simpleName
 
     private val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
-    private val loaderScope = CoroutineScope(Job() + Dispatchers.Main)
+    private val loaderScope = CoroutineScope(Job() + dispatcher)
 
     fun load() {
         loaderScope.launch {

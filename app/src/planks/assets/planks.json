@@ -2,12 +2,6 @@
   "workouts":
   [
     {
-      "day": 0,
-      "week": 1,
-      "sets":[],
-      "testThreshold": 15
-    },
-    {
       "day": 1,
       "week": 1,
       "sets":
