@@ -31,7 +31,11 @@ interface RoomAccessObject {
     fun getLastTest(): Flow<Workout?>
 
     /**
-     * Returns the next workout for this week and level.
+     * Returns the next workout for this week, this day and level.
+     *
+     * @param week this week
+     * @param day today (not the day you're looking for, let the query figure that out)
+     * @param level the level of the current workout
      *
      * @return null if there are no more workouts this week.
      */
