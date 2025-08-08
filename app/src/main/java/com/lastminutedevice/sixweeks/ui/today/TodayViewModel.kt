@@ -1,6 +1,7 @@
 package com.lastminutedevice.sixweeks.ui.today
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,16 @@ class TodayViewModel @Inject constructor(val repository: Repository) : ViewModel
     val workout: LiveData<NextWorkoutResult> = repository.getNextWorkout().asLiveData()
 
     val lastTest: LiveData<UserWorkout?> = repository.getLastTest().asLiveData()
+
+    private val _totalWorkouts = MutableLiveData<Int>()
+
+    val totalWorkouts: LiveData<Int> = _totalWorkouts
+
+    init {
+        viewModelScope.launch {
+            _totalWorkouts.value = repository.totalWorkouts()
+        }
+    }
 
     /**
      * If we show a rest day then we do not have the user manually record that

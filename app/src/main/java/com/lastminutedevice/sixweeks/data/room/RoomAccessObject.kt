@@ -57,4 +57,7 @@ interface RoomAccessObject {
      */
     @Query("select * from workout where workoutId = (select min(workoutId) from workout where date is null and testThreshold > 0)")
     suspend fun getNextTest() : Workout?
+
+    @Query("select count(*) from workout")
+    suspend fun totalWorkouts() : Int
 }

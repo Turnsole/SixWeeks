@@ -1,5 +1,6 @@
 package com.lastminutedevice.sixweeks.ui.today
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import java.time.format.DateTimeFormatter
 @AndroidEntryPoint
 class TodayFragment : Fragment() {
 
+    @SuppressLint("StringFormatMatches") // Different programs show weeks or not.
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,10 +83,11 @@ class TodayFragment : Fragment() {
             binding.dailyActivityContainer.addView(cardContents)
 
             // Show overall progress.
+            val totalWorkouts = viewModel.totalWorkouts.value!!.toFloat()
             state.nextWorkout?.let { workout ->
                 binding.weekProgressCard.visibility = View.VISIBLE
                 binding.weekProgressMessage.text = getString(R.string.today_progress, workout.day, workout.week)
-                binding.progressBar.progress = ((workout.week / 6f) * 100).toInt()
+                binding.progressBar.progress = ((workout.id / totalWorkouts) * 100).toInt()
             }
         }
         return binding.root

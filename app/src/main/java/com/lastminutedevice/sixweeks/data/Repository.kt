@@ -22,6 +22,10 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
 
     private val tag: String = this::class.java.simpleName
 
+    suspend fun totalWorkouts() : Int {
+        return dao.totalWorkouts()
+    }
+
     @Transaction
     suspend fun saveWorkouts(jsonWorkouts: List<JsonWorkout>) {
         jsonWorkouts.forEach { workout ->
