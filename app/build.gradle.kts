@@ -106,7 +106,7 @@ dependencies {
     testImplementation("androidx.room:room-testing:${roomVersion}")
 
     testImplementation("org.mockito:mockito-core:5.18.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.0.0")
 
     implementation("androidx.test.ext:junit-ktx:1.2.1")
     implementation("org.jetbrains.kotlin:kotlin-test:2.1.21")

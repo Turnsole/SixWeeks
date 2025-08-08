@@ -64,7 +64,11 @@ class TodayFragment : Fragment() {
                     )
                 }
 
-                state.nextWorkout.sets.isEmpty() -> displayRest()
+                // If there was no test, and no sets, this is a rest day.
+                state.nextWorkout.sets.isEmpty() -> {
+                    viewModel.restDayDisplayed(state.nextWorkout)
+                    displayRest()
+                }
 
                 else -> {
                     displayWorkout(
@@ -133,6 +137,8 @@ class TodayFragment : Fragment() {
                 WorkoutFragment().show(parentFragmentManager, "workout")
             }
         } else {
+            fab.visibility = View.GONE
+
             val sum = workout.sets.sum()
             val reps = resources.getQuantityString(R.plurals.reps, sum, sum)
             binding.workoutSets.text = getString(R.string.today_completed, reps)

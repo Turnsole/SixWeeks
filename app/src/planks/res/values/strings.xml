@@ -3,6 +3,7 @@
     <string name="app_name">6W Planks</string>
     <plurals name="reps">
         <item quantity="one">a 1 second plank</item>
-        <item quantity="other">a %d second plank</item>
+        <item quantity="other">%d seconds of planking</item>
     </plurals>
+    <string name="today_progress">You are on day %1d out of 42.</string>
 </resources>

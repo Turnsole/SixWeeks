@@ -48,7 +48,7 @@ interface RoomAccessObject {
      * @return null if the level ends this week (time for a test).
      */
     @Query("select * from workout where week = (:week + 1) and day = 1 and level = :level")
-    suspend fun getNextWeekThisLevel(week: Int, level: Int) : Workout?
+    suspend fun getFirstWorkoutNextWeek(week: Int, level: Int) : Workout?
 
     /**
      * Finds the next workout which is an uncompleted test.

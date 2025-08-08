@@ -75,7 +75,7 @@ class WorkoutViewModel @Inject constructor(val repository: Repository) : ViewMod
 
             viewModelScope.launch {
                 if (_rest != null) {
-                    for (i in _rest!! downTo 0) {
+                    for (i in 5 downTo 0) { // TODO put this back
                         _countDown.postValue(i)
                         if (i > 0) { delay(1000L) }
                     }

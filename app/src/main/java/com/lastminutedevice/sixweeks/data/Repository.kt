@@ -60,20 +60,21 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
      */
     fun getNextWorkout(): Flow<NextWorkoutResult> {
         return dao.mostRecentCompleted().map { completedWorkout ->
-            val entity = if (completedWorkout == null) {
-                dao.getWorkout(workoutId = 1) // No completed workouts, so start at the beginning.
-            } else if (completedWorkout.isToday()) {
-                completedWorkout // Show the workout you did today.
-            } else {
+            val entity = when {
+                // No completed workouts, so start at the beginning.
+                completedWorkout == null -> dao.getWorkout(workoutId = 1)
+                // Show the workout you did today.
+                completedWorkout.lessThanFiveSecondsAgo() -> completedWorkout
                 // Figure out the next workout based on your level and progress.
+                else ->
                 dao.getNextWorkoutThisWeek(
                     week = completedWorkout.week,
                     day = completedWorkout.day,
                     level = completedWorkout.level
-                ) ?: dao.getNextWeekThisLevel(
+                ) ?: dao.getFirstWorkoutNextWeek(
                     week = completedWorkout.week,
                     level = completedWorkout.level
-                ) ?: dao.getNextTest()
+                ) ?: dao.getNextTest() // When there's no next week, get the final test.
             }
             if (entity != null) {
                 NextWorkoutResult(
@@ -107,6 +108,10 @@ class Repository @Inject constructor(val dao: RoomAccessObject) {
             .atZone(ZoneId.systemDefault())
             .toLocalDate()
         return LocalDate.now(ZoneId.systemDefault()) == localDateForTimestamp
+    }
+
+    fun Workout?.lessThanFiveSecondsAgo() : Boolean {
+        return this != null && this.completed != null && this.completed.date > System.currentTimeMillis() - 5000
     }
 
     fun getLastTest(): Flow<UserWorkout?> {
