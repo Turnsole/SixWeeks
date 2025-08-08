@@ -16,6 +16,7 @@ import com.lastminutedevice.sixweeks.databinding.TodayCardErrorBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardRestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardTestBinding
 import com.lastminutedevice.sixweeks.databinding.TodayCardWorkoutBinding
+import com.lastminutedevice.sixweeks.ui.SetDisplayCalculator
 import com.lastminutedevice.sixweeks.ui.test.TestFragment
 import com.lastminutedevice.sixweeks.ui.workout.WorkoutFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +45,7 @@ class TodayFragment : Fragment() {
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate()
                 binding.lastTestDate.text = localDateForTimestamp.format(DateTimeFormatter.ofPattern("MMMM d, y"))
-                val motions = resources.getQuantityString(R.plurals.reps, motions, motions)
+                val motions = resources.getString(R.string.reps, motions)
                 binding.lastTestMessage.text = getString(R.string.today_last_test, motions)
             }
         }
@@ -127,11 +128,12 @@ class TodayFragment : Fragment() {
         val binding = TodayCardWorkoutBinding.inflate(layoutInflater)
         binding.workoutHeader.text = getString(R.string.today_workout_header)
 
+        val setDisplayCalculator = SetDisplayCalculator(resources)
         if (workout.completed == null) {
             binding.workoutSets.text = getString(
                 R.string.today_workout,
                 workout.rest,
-                workout.sets.joinToString(", ")
+                workout.sets.joinToString(", ") { setDisplayCalculator.repString(reps = it) }
             )
 
             fab.visibility = View.VISIBLE
@@ -142,8 +144,8 @@ class TodayFragment : Fragment() {
         } else {
             fab.visibility = View.GONE
 
-            val sum = workout.sets.sum()
-            val reps = resources.getQuantityString(R.plurals.reps, sum, sum)
+            val sum = setDisplayCalculator.repString(workout.sets.sum())
+            val reps = resources.getString(R.string.reps, sum)
             binding.workoutSets.text = getString(R.string.today_completed, reps)
         }
 

@@ -20,4 +20,5 @@
     <string name="rest_message">Rest for: %d seconds.</string>
     <string name="today_completed">You completed %s. ✅</string>
     <string name="today_last_test">On your last exhaustion test you did %s.</string>
+    <string name="reps">%s reps</string>
 </resources>

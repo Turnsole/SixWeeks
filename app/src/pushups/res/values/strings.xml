@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">6W Pushups</string>
-    <plurals name="reps">
-        <item quantity="one">1 pushup</item>
-        <item quantity="other">%d pushups</item>
-    </plurals>
+    <string name="reps">%s pushups</string>
 </resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- True if reps should be displayed in minutes:seconds instead of as an integer. -->
+    <bool name="display_minutes">false</bool>
+</resources>

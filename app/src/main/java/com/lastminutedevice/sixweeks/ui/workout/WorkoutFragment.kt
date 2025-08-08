@@ -12,6 +12,7 @@ import com.lastminutedevice.sixweeks.R
 import com.lastminutedevice.sixweeks.databinding.FragmentWorkoutBinding
 import com.lastminutedevice.sixweeks.databinding.FragmentWorkoutRestBinding
 import com.lastminutedevice.sixweeks.databinding.FragmentWorkoutSetBinding
+import com.lastminutedevice.sixweeks.ui.SetDisplayCalculator
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -47,7 +48,8 @@ class WorkoutFragment() : DialogFragment() {
 
         viewModel.reps.observe(viewLifecycleOwner) { reps ->
             reps?.let {
-                setView.workoutSets.text = resources.getQuantityString(R.plurals.reps, reps, reps)
+                val formattedReps = SetDisplayCalculator(resources).repString(reps)
+                setView.workoutSets.text = resources.getString(R.string.reps, formattedReps)
             }
         }
         setView.workoutSetsDoneButton.setOnClickListener { viewModel.completeSet() }
