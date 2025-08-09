@@ -24,7 +24,10 @@ class WorkoutFragment() : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentWorkoutBinding.inflate(layoutInflater, container, false)
+        // Set this DialogFragment to have rounded corners.
+        dialog?.window?.setBackgroundDrawableResource(R.drawable.dialog_background)
+
+        val binding = FragmentWorkoutBinding.inflate(inflater, container, false)
         val setView = FragmentWorkoutSetBinding.inflate(inflater, binding.root, false)
         val restView = FragmentWorkoutRestBinding.inflate(inflater, binding.root, false)
 
@@ -60,7 +63,6 @@ class WorkoutFragment() : DialogFragment() {
 
         return binding.root
     }
-
 
     override fun onResume() {
         // Make the dialog 90% of the width of the screen.
