@@ -7,4 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="checkmark_done">#145223</color>
+    <color name="checkmark_not_done">#FF5722</color>
 </resources>
