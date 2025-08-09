@@ -1,11 +1,10 @@
 package com.lastminutedevice.sixweeks.ui.program
 
 import androidx.recyclerview.widget.RecyclerView
-import com.lastminutedevice.sixweeks.databinding.ProgramAdapterWeekBinding
+import com.lastminutedevice.sixweeks.databinding.ProgramAdapterWeekHeaderBinding
 
-class ProgramViewHolder (binding: ProgramAdapterWeekBinding) : RecyclerView.ViewHolder(binding.root) {
+class ProgramHeaderHolder(binding: ProgramAdapterWeekHeaderBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
-    val week = binding.week
-
-    val container = binding.container
+    val weekView = binding.week
 }
