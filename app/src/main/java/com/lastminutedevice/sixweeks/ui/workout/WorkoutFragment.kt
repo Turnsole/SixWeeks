@@ -16,6 +16,10 @@ import com.lastminutedevice.sixweeks.ui.SetDisplayCalculator
 import dagger.hilt.android.AndroidEntryPoint
 
 
+/**
+ * This fragment displays the daily workout, which is a timer (if appropriate) or
+ * the number of reps to complete.
+ */
 @AndroidEntryPoint
 class WorkoutFragment() : DialogFragment() {
 

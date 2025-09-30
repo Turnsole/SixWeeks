@@ -17,6 +17,12 @@ import kotlinx.coroutines.withContext
 
 private const val PARAM_WORKOUT = "workout"
 
+/**
+ * This fragment displays an exhaustion "test" which the user submits in order to determine
+ * their "level". This is a bottom sheet which pops up when prompted from the Today fragmnet.
+ *
+ * Depending on the program it may display a timer or a text input field for reps.
+ */
 @AndroidEntryPoint
 class TestFragment : BottomSheetDialogFragment() {
 

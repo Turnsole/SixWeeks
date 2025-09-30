@@ -24,6 +24,10 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+/**
+ * This is the home fragment which displays the user's progress through the program
+ * as well as a preview of today's workout.
+ */
 @AndroidEntryPoint
 class TodayFragment : Fragment() {
 
