@@ -22,4 +22,7 @@
     <string name="today_completed">You completed %s. ✅</string>
     <string name="today_last_test">On your last exhaustion test you did %s.</string>
     <string name="reps">%s reps</string>
+
+    <string name="content_desc_workout_completed">Workout Completed</string>
+    <string name="content_desc_workout_unfinished">Workout Not Completed</string>
 </resources>

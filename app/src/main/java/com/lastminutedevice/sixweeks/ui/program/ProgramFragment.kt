@@ -10,6 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lastminutedevice.sixweeks.databinding.FragmentProgramBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * The Program fragment displays the complete list of workouts in this user's progression.
+ * They can see their completed workouts as well as the remaining workouts for their level
+ * (if the program being displayed has levels).
+ */
 @AndroidEntryPoint
 class ProgramFragment : Fragment() {
     override fun onCreateView(

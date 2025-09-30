@@ -2,7 +2,4 @@
 <resources>
     <string name="app_name">6W Planks</string>
     <string name="reps">%s of planking</string>
-    <string name="today_progress">You are on day %1d out of 42.</string>
-    <string name="content_desc_workout_completed">Workout Completed</string>
-    <string name="content_desc_workout_unfinished">Workout Not Completed</string>
 </resources>

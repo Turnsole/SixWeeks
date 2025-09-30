@@ -27,6 +27,7 @@ class WorkoutFragment() : DialogFragment() {
         // Set this DialogFragment to have rounded corners.
         dialog?.window?.setBackgroundDrawableResource(R.drawable.dialog_background)
 
+        // Set up the ViewModel and View binding.
         val binding = FragmentWorkoutBinding.inflate(inflater, container, false)
         val setView = FragmentWorkoutSetBinding.inflate(inflater, binding.root, false)
         val restView = FragmentWorkoutRestBinding.inflate(inflater, binding.root, false)
