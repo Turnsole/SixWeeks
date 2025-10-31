@@ -3,9 +3,26 @@
     <string name="title_today">Today</string>
     <string name="title_program">Program</string>
     <string name="program_list_header">Week %d</string>
-    <string name="program_list_day">Day %d: %s</string>
-    <string name="today_progress">You are on week %d of 6.</string>
+    <string name="program_list_day">Day %d</string>
+    <string name="program_rest_day">Rest Day</string>
+    <string name="today_progress">You are on day %1d of week %2d.</string>
     <string name="today_rest">Enjoy a rest day.</string>
     <string name="today_test_header">Today is a test!</string>
-    <string name="today_test_result"/>
+    <string name="today_test_threshold">Try to do at least %d reps.</string>
+    <string name="today_test_result">You recorded: %1d reps, out of a suggested %2d.</string>
+    <string name="today_workout_header">Today\'s Workout</string>
+    <string name="today_workout">Rest: %d seconds. Sets: %s.</string>
+    <string name="today_start_workout_button">Start Workout</string>
+    <string name="test_title">Your max reps:</string>
+    <string name="test_submit_button_label">Save</string>
+    <string name="today_done_message">Congratulations, you are done!</string>
+    <string name="today_error_message">There has been an error.</string>
+    <string name="set_done_button">Done!</string>
+    <string name="rest_message">Rest for: %d seconds.</string>
+    <string name="today_completed">You completed %s. ✅</string>
+    <string name="today_last_test">On your last exhaustion test you did %s.</string>
+    <string name="reps">%s reps</string>
+
+    <string name="content_desc_workout_completed">Workout Completed</string>
+    <string name="content_desc_workout_unfinished">Workout Not Completed</string>
 </resources>

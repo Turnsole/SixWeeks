@@ -8,10 +8,6 @@ import com.lastminutedevice.sixweeks.data.json.JsonWorkoutFile
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
@@ -20,21 +16,18 @@ import java.io.InputStreamReader
 /**
  * Loads JSON files packaged with the app into the Repository.
  */
-class Loader(private val repository: Repository, private val context: Context) {
+class Loader(
+    private val repository: Repository,
+    private val context: Context
+) {
 
     private val tag: String = this::class.java.simpleName
 
     private val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
-    private val loaderScope = CoroutineScope(Job() + Dispatchers.Main)
-
-    fun load() {
-        loaderScope.launch {
-            repository.loadWorkouts().collect { result ->
-                if (result.isEmpty()) {
-                    importProgram(name = BuildConfig.skill)
-                }
-            }
+    suspend fun load() {
+        if (repository.dao.getWorkout(workoutId = 1) == null) {
+            importProgram(name = BuildConfig.skill)
         }
     }
 
@@ -66,12 +59,12 @@ class Loader(private val repository: Repository, private val context: Context) {
             }
             return buffer.toString()
         } catch (e: IOException) {
-            Log.e(tag, "Failure opening $name")
+            Log.e(tag, "Failure opening $name", e)
         } finally {
             try {
                 inputReader?.close()
             } catch (e: IOException) {
-                Log.e(tag, "Failure closing $name")
+                Log.e(tag, "Failure closing $name", e)
             }
         }
         throw Exception("Couldn't load asset file.")
